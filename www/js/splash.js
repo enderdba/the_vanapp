@@ -14,7 +14,7 @@ function onDeviceReady() {
   var dmap = $("#map");
   navigator.geolocation.getCurrentPosition(function (position) {
     loadStaticMap(position.coords.latitude, position.coords.longitude, smap);
-    showMap(smap, dmap, position.coords.latitude, position.coords.longitude);
+    showMap(dmap, smap, position.coords.latitude, position.coords.longitude);
   });
   $(".logo").transition({
     "opacity": "1.0",

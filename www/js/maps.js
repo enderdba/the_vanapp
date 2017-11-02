@@ -18,7 +18,7 @@ function showMap(dmap, smap, latitude, longitude) {
     volverBtn.addEventListener('click', toggleMap);
     var ubiqBtn = document.createElement("a");
     ubiqBtn.addEventListener('click', function () {
-        getPosition(marker, map);
+        getPosition(marker, map, smap);
     });
     ubiqBtn.innerHTML = "<i class='material-icons'>gps_fixed</i>";
     ubiqBtn.className = "btn mapControls";
@@ -27,20 +27,20 @@ function showMap(dmap, smap, latitude, longitude) {
 
 
     google.maps.event.addListener(map, 'click', function (event) {
-        placeMarker(event.latLng, marker, map);
+        placeMarker(event.latLng, marker, map, smap);
     });
     smap.click(function () {
-        toggleMap(marker, map);
+        toggleMap(marker, map, smap);
         alreadyAuto = true;
     });
 }
 
-function placeMarker(location, marker, map) {
+function placeMarker(location, marker, map, smap) {
     marker.setPosition(location);
     map.panTo(location)
-        .setZoom(18);
+    map.setZoom(18);
     console.log(location.lat(), ",", location.lng());
-    loadStaticMap(location.lat(), location.lng());
+    loadStaticMap(location.lat(), location.lng(), smap);
 }
 
 function loadStaticMap(lat, lng, smap) {
@@ -54,18 +54,18 @@ function loadStaticMap(lat, lng, smap) {
         })
 }
 
-function getPosition(marker, map) {
+function getPosition(marker, map, smap) {
     navigator.geolocation.getCurrentPosition(function (position) {
         myLatlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        placeMarker(myLatlng, marker, map);
+        placeMarker(myLatlng, marker, map, smap);
     });
 }
 
-function toggleMap(marker, map) {
+function toggleMap(marker, map, smap) {
     $(".gmnoprint").hide();
     $('#map img.gm-fullscreen-control').parent("button").trigger('click');
     if (!alreadyAuto) {
-        getPosition(marker, map);
+        getPosition(marker, map, smap);
     }
 }
 
